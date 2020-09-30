@@ -3,9 +3,6 @@ from PySide2 import QtWidgets
 import toolBar
 reload(toolBar)
 
-from ..core import pickerManager
-reload(pickerManager)
-
 class WorkSpace(QtWidgets.QWidget):
     def __init__(self):
         """
@@ -18,27 +15,18 @@ class WorkSpace(QtWidgets.QWidget):
         self.mainLayout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(self.mainLayout)
 
-    def toolBarWidget(self):
-        """
-        Creates the main toolBar.
+        self.toolBarWidget = toolBar.ToolBar(parent=self)
+        self.toolBarWidget.newTabSignal.connect(self.newTab)
 
-        Returns:
-            QtWidgets.QToolBar: Picker Main tool bar.
+    def newTab(self, inTabWidget):
         """
-        toolBarWidget = toolBar.ToolBar(parent=self)
-        toolBarWidget.addTabSignal.connect(self.addNewTab)
-
-        return toolBarWidget
-
-    def addNewTab(self, inTabLabelStr):
-        """
-        Slot Method to add a new tab to the main to the main layout.
+        Slot method to add a new picker Tab.
 
         Args:
-            inTabLabelStr(basestring): Given name to be set in the tab's label.
+            inTabWidget(QtWidgets.QTabWidget): Given widget to be added to the main Layout.
 
         Returns:
-            QtWidgets.QTabWidget: Widget type of this class.
+            None.
         """
-        if inTabLabelStr:
-            self.mainLayout.addWidget(pickerManager.PickerManager().addTab(inTabLabelStr).widget())
+        if inTabWidget:
+            self.mainLayout.addWidget(inTabWidget)

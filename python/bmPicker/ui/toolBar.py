@@ -1,27 +1,34 @@
 from PySide2 import QtWidgets
 from PySide2 import QtCore
 
+from ..core import itemManager
+reload(itemManager)
+
+from ..utilities import constants
+
 class ToolBar(QtWidgets.QToolBar):
-    addTabSignal = QtCore.Signal(str)
+    newTabSignal = QtCore.Signal(object)
 
     def __init__(self, parent=None):
         """
-        Generic Class to instance and manage a tool bar.
+        Class to instance and manage a tool bar.
 
         Args:
-            parent (QtWidgets.QWidget): Parent widget
+            parent (QtWidgets.QWidget): Parent widget.
 
         Signals:
-            addTabSignal (QtCore.Signal): Signal to add a new tab to the mainlayout.
+            addTabSignal (QtCore.Signal): Signal to add a new tab to the mainLayout.
         """
         super(ToolBar, self).__init__()
         self.setParent = parent
         self.setMovable(False)
 
-        # Init the main QActions.
-        self.manageFileActions()
+        self.itemManager = itemManager.ItemManager()
 
-    def manageFileActions(self):
+        # Initialize the main QActions.
+        self.mainActions()
+
+    def mainActions(self):
         """
         Sets the main QActions to be added to the toolbar.
 
@@ -43,7 +50,5 @@ class ToolBar(QtWidgets.QToolBar):
         Returns:
             None.
         """
-        tabNameInput, nameValue = QtWidgets.QInputDialog.getText(self,
-                                                                 'TabName',
-                                                                 'Enter the name of the tab:')
-        self.addTabSignal.emit(tabNameInput)
+        self.newTabSignal.emit(self.itemManager.newItem(constants.TAB_ITEM_TYPE))
+

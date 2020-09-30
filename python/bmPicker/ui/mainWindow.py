@@ -15,12 +15,21 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
 
         self.setWindowTitle(inWindowTitleStr)
-        self.setGeometry(500, 100, 1000, 900)
+        self.setGeometry(500, 100, 700, 900)
 
+        # Initialize the main workspace.
+        self.mainWorkspace()
+
+    def mainWorkspace(self):
+        """
+        Sets the main workspace for the tool.
+
+        Returns:
+              None.
+        """
         # Instance of the workspace.
         workSpace = workspace.WorkSpace()
 
         # Sets the toolBar.
-        self.addToolBar(workSpace.toolBarWidget())
-
+        self.addToolBar(workSpace.toolBarWidget)
         self.setCentralWidget(workSpace)
