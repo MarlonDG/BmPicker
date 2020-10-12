@@ -13,23 +13,29 @@ class MainWindow(QtWidgets.QMainWindow):
 
         """
         super(MainWindow, self).__init__()
+        self._mainWorkspace = None
 
         self.setWindowTitle(inWindowTitleStr)
         self.setGeometry(500, 100, 700, 900)
 
-        # Initialize the main workspace.
-        self.mainWorkspace()
+        self.mainWorkspace = workspace.WorkSpace(parent=self)
 
+    @property
     def mainWorkspace(self):
         """
-        Sets the main workspace for the tool.
+        Gets the main workspace.
 
         Returns:
-              None.
+            QtWidgets.QWidget: Widget used as main workspace.
         """
-        # Instance of the workspace.
-        workSpace = workspace.WorkSpace()
+        return self._mainWorkspace
 
-        # Sets the toolBar.
-        self.addToolBar(workSpace.toolBarWidget)
-        self.setCentralWidget(workSpace)
+    @mainWorkspace.setter
+    def mainWorkspace(self, inWorkspace):
+        '''
+        Sets the main workspace.
+
+        Args:
+            inWorkspace(QtWidgets.QWidget): Given widget to set as main workspace.
+        '''
+        self.setCentralWidget(inWorkspace)

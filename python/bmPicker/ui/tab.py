@@ -1,9 +1,6 @@
 from PySide2 import QtWidgets
 from PySide2 import QtCore
 
-import itemScene
-reload(itemScene)
-
 class Tab(QtWidgets.QTabWidget):
     def __init__(self):
         """
@@ -16,8 +13,8 @@ class Tab(QtWidgets.QTabWidget):
         # Set the default name of the tab as 'NewPicker'
         self._name = 'NewPicker'
 
-        # Adds a new tab.
-        self.addTab(itemScene.ItemScene(), self._name)
+        # Adds a new tab, with a GraphicView instance attached, by default.
+        self.addTab(GraphicView(), self._name)
 
         # Initialize the context menu.
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
@@ -87,3 +84,8 @@ class Tab(QtWidgets.QTabWidget):
         if inTabNameStr:
             self._name = inTabNameStr
             self.setTabText(self.currentIndex(), self._name)
+
+class GraphicView(QtWidgets.QGraphicsView):
+    def __init__(self):
+        super(GraphicView, self).__init__()
+
